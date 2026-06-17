@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seller Scope — Amazon Sales Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0C0F; --surface: #111418; --border: #1E2328;
+      --accent: #00E5A0; --text: #E8EAF0; --muted: #5A6070;
+      --mono: 'IBM Plex Mono', monospace; --sans: 'Inter', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,12,15,0.92); backdrop-filter: blur(12px); z-index: 100; }
+    .logo { font-family: var(--mono); font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent); color: #000; font-family: var(--sans); font-size: 14px; font-weight: 600; padding: 10px 20px; border: none; cursor: pointer; text-decoration: none; transition: opacity 0.2s; }
+    .nav-cta:hover { opacity: 0.85; }
+    .hero { padding: 120px 48px 100px; max-width: 1100px; margin: 0 auto; }
+    .hero-tag { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+    .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+    h1 { font-size: clamp(42px, 6vw, 80px); font-weight: 300; line-height: 1.05; letter-spacing: -2px; margin-bottom: 32px; }
+    h1 strong { font-weight: 600; color: var(--accent); }
+    .hero-sub { font-size: 18px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 48px; font-weight: 300; }
+    .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #000; font-size: 15px; font-weight: 600; padding: 14px 28px; text-decoration: none; transition: opacity 0.2s; display: inline-block; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost { color: var(--muted); font-size: 14px; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .btn-ghost:hover { color: var(--text); }
+    .ticker { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; overflow: hidden; margin: 60px 0 0; }
+    .ticker-track { display: flex; gap: 64px; animation: ticker 20s linear infinite; white-space: nowrap; }
+    .ticker-item { font-family: var(--mono); font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .ticker-item .val { color: var(--accent); font-weight: 600; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .stats { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 48px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); }
+    .stat-card { padding: 40px 36px; border-right: 1px solid var(--border); }
+    .stat-card:last-child { border-right: none; }
+    .stat-num { font-family: var(--mono); font-size: 48px; font-weight: 600; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 13px; color: var(--muted); }
+    .features { padding: 0 48px 100px; max-width: 1100px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .feature { background: var(--bg); padding: 48px 40px; }
+    .feature-icon { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 1px; margin-bottom: 20px; }
+    .feature h3 { font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+    .feature p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .pricing { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+    .pricing-card { border: 1px solid var(--accent); max-width: 480px; padding: 48px 40px; position: relative; }
+    .pricing-badge { position: absolute; top: -12px; left: 40px; background: var(--accent); color: #000; font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 4px 12px; letter-spacing: 1px; }
+    .pricing-name { font-family: var(--mono); font-size: 13px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+    .pricing-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+    .price-amount { font-family: var(--mono); font-size: 56px; font-weight: 600; line-height: 1; }
+    .price-period { font-size: 14px; color: var(--muted); }
+    .trial-note { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 32px; }
+    .pricing-features { list-style: none; margin-bottom: 36px; }
+    .pricing-features li { font-size: 14px; color: var(--muted); padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .pricing-features li::before { content: '✓'; color: var(--accent); font-family: var(--mono); font-size: 12px; flex-shrink: 0; }
+    .pricing-features li:last-child { border-bottom: none; }
+    .pricing-disclaimer { font-size: 12px; color: var(--muted); line-height: 1.7; margin-top: 20px; }
+    .pricing-disclaimer a { color: var(--accent); text-decoration: none; }
+    .waitlist { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 48px; text-align: center; }
+    .waitlist h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 300; letter-spacing: -1px; margin-bottom: 16px; }
+    .waitlist h2 strong { font-weight: 600; }
+    .waitlist p { color: var(--muted); font-size: 15px; margin-bottom: 40px; }
+    .email-form { display: flex; max-width: 480px; margin: 0 auto 16px; }
+    .email-form input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-right: none; color: var(--text); font-family: var(--sans); font-size: 14px; padding: 14px 18px; outline: none; }
+    .email-form input::placeholder { color: var(--muted); }
+    .email-form input:focus { border-color: var(--accent); }
+    .email-form button { background: var(--accent); color: #000; font-family: var(--sans); font-size: 14px; font-weight: 600; padding: 14px 24px; border: none; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
+    .email-form button:hover { opacity: 0.85; }
+    .waitlist-fine { font-size: 12px; color: var(--muted); max-width: 400px; margin: 0 auto; line-height: 1.6; }
+    .waitlist-fine a { color: var(--accent); text-decoration: none; }
+    footer { padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+    .footer-logo { font-family: var(--mono); font-size: 14px; color: var(--muted); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 80px 24px 60px; }
+      .stats { padding: 60px 24px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .stat-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .features { padding: 0 24px 60px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing { padding: 60px 24px; }
+      .waitlist { padding: 60px 24px; }
+      .email-form { flex-direction: column; }
+      .email-form input { border-right: 1px solid var(--border); border-bottom: none; }
+      footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Seller<span>Scope</span></div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#waitlist">Early Access</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+    <a href="#waitlist" class="nav-cta">Start Free Trial</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Amazon Sales Intelligence</div>
+    <h1>Your sales data.<br /><strong>Always in scope.</strong></h1>
+    <p class="hero-sub">Seller Scope connects directly to your Amazon Seller account and gives you real-time visibility into what's selling, when, and how much — by day, month, and year.</p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Start Free 7-Day Trial</a>
+      <a href="#features" class="btn-ghost">See what's included →</a>
+    </div>
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">TODAY <span class="val">↑ 142 units</span></span>
+        <span class="ticker-item">THIS MONTH <span class="val">$28,440</span></span>
+        <span class="ticker-item">YTD UNITS <span class="val">18,302</span></span>
+        <span class="ticker-item">TOP SKU <span class="val">B08XK9T2NR</span></span>
+        <span class="ticker-item">LAST 7 DAYS <span class="val">$6,220</span></span>
+        <span class="ticker-item">TODAY <span class="val">↑ 142 units</span></span>
+        <span class="ticker-item">THIS MONTH <span class="val">$28,440</span></span>
+        <span class="ticker-item">YTD UNITS <span class="val">18,302</span></span>
+        <span class="ticker-item">TOP SKU <span class="val">B08XK9T2NR</span></span>
+        <span class="ticker-item">LAST 7 DAYS <span class="val">$6,220</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="section-label">Built for sellers who mean business</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Time views — day, month, year</div></div>
+      <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">Seller accounts supported</div></div>
+      <div class="stat-card"><div class="stat-num">Live</div><div class="stat-label">Direct SP-API connection</div></div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="section-label">What Seller Scope does</div>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">01 — TOTALS</div>
+        <h3>Running sales totals</h3>
+        <p>See exactly how many units you've sold today, this month, and this year — updated in real time from your Amazon account.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">02 — LOOKUP</div>
+        <h3>Date-based order lookup</h3>
+        <p>Pick any date and instantly see every item purchased, quantity sold, and revenue — no exporting, no spreadsheets.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">03 — REVENUE</div>
+        <h3>Units and revenue together</h3>
+        <p>Track both units sold and dollar revenue side by side so you always know volume and value at the same glance.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">04 — MULTI-ACCOUNT</div>
+        <h3>Multiple seller accounts</h3>
+        <p>Connect and switch between multiple Amazon Seller accounts. Built for sellers who operate more than one brand.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="section-label">Simple pricing</div>
+    <div class="pricing-card">
+      <div class="pricing-badge">7-DAY FREE TRIAL</div>
+      <div class="pricing-name">Seller Scope Pro</div>
+      <div class="pricing-price">
+        <span class="price-amount">$19.99</span>
+        <span class="price-period">/ month</span>
+      </div>
+      <div class="trial-note">Free for 7 days — then $19.99/month. Cancel anytime.</div>
+      <ul class="pricing-features">
+        <li>Real-time units sold and revenue dashboard</li>
+        <li>Daily, monthly, and yearly sales totals</li>
+        <li>Date-based order and product lookup</li>
+        <li>Multiple Amazon Seller accounts</li>
+        <li>Direct Amazon SP-API connection</li>
+        <li>iOS and Android apps</li>
+      </ul>
+      <a href="#waitlist" class="btn-primary" style="display:block; text-align:center;">Start Free 7-Day Trial</a>
+      <p class="pricing-disclaimer">
+        After your 7-day free trial, you will be charged $19.99 per month. Your subscription automatically renews monthly until cancelled. Cancel any time before the trial ends and you will not be charged. Subscriptions are managed through the Apple App Store or Google Play Store and subject to their billing terms. By starting a trial you agree to our <a href="terms.html">Terms & Conditions</a> and <a href="privacy.html">Privacy Policy</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="waitlist" id="waitlist">
+    <h2>Be first to get <strong>Seller Scope</strong></h2>
+    <p>We're onboarding early users. Drop your email and we'll let you know when you're in.</p>
+    <div class="email-form">
+      <input type="email" placeholder="your@email.com" />
+      <button type="button">Join Waitlist</button>
+    </div>
+    <p class="waitlist-fine">By joining you agree to our <a href="terms.html">Terms & Conditions</a> and <a href="privacy.html">Privacy Policy</a>. No spam, ever.</p>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Seller<span>Scope</span></div>
+    <ul class="footer-links">
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+      <li><a href="mailto:hello@sellerscopeapp.com">Contact</a></li>
+    </ul>
+  </footer>
+</body>
+</html>
